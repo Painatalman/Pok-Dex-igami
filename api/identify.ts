@@ -1,6 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { ROSTER_NAMES, findByName } from "../src/data/roster";
+import { ROSTER_NAMES, findByName } from "../src/data/roster.js";
 import type { IdentifyResult } from "../src/types";
 
 const MODEL = process.env.IDENTIFY_MODEL || "claude-sonnet-5";
