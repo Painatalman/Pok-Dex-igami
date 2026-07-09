@@ -1,14 +1,12 @@
 import type { RosterEntry } from "../types";
 
 /**
- * The app's roster: a varied set — base-form pokémon only (evolutions removed),
- * plus a small whitelist of kept evolutions. Generated from PokéAPI evolution
- * chains. Trim or extend WHITELIST in scripts/gen-roster to taste.
+ * The app's roster: exactly one representative per evolution family (one stage
+ * per pokémon), for a varied set. Defaults to the base form; a few families use
+ * a preferred later stage. Generated from PokéAPI evolution chains.
  */
 export const ROSTER: RosterEntry[] = [
-  { id: 1, name: "Bulbasaur", gen: 1 },
   { id: 2, name: "Ivysaur", gen: 1 },
-  { id: 4, name: "Charmander", gen: 1 },
   { id: 6, name: "Charizard", gen: 1 },
   { id: 7, name: "Squirtle", gen: 1 },
   { id: 10, name: "Caterpie", gen: 1 },
@@ -17,6 +15,7 @@ export const ROSTER: RosterEntry[] = [
   { id: 19, name: "Rattata", gen: 1 },
   { id: 21, name: "Spearow", gen: 1 },
   { id: 23, name: "Ekans", gen: 1 },
+  { id: 25, name: "Pikachu", gen: 1 },
   { id: 27, name: "Sandshrew", gen: 1 },
   { id: 29, name: "Nidoran♀", gen: 1 },
   { id: 32, name: "Nidoran♂", gen: 1 },
@@ -84,7 +83,6 @@ export const ROSTER: RosterEntry[] = [
   { id: 165, name: "Ledyba", gen: 2 },
   { id: 167, name: "Spinarak", gen: 2 },
   { id: 170, name: "Chinchou", gen: 2 },
-  { id: 172, name: "Pichu", gen: 2 },
   { id: 173, name: "Cleffa", gen: 2 },
   { id: 174, name: "Igglybuff", gen: 2 },
   { id: 175, name: "Togepi", gen: 2 },
@@ -101,7 +99,6 @@ export const ROSTER: RosterEntry[] = [
   { id: 203, name: "Girafarig", gen: 2 },
   { id: 204, name: "Pineco", gen: 2 },
   { id: 206, name: "Dunsparce", gen: 2 },
-  { id: 207, name: "Gligar", gen: 2 },
   { id: 209, name: "Snubbull", gen: 2 },
   { id: 211, name: "Qwilfish", gen: 2 },
   { id: 213, name: "Shuckle", gen: 2 },
@@ -127,6 +124,7 @@ export const ROSTER: RosterEntry[] = [
   { id: 244, name: "Entei", gen: 2 },
   { id: 245, name: "Suicune", gen: 2 },
   { id: 246, name: "Larvitar", gen: 2 },
+  { id: 249, name: "Lugia", gen: 2 },
   { id: 251, name: "Celebi", gen: 2 },
   { id: 252, name: "Treecko", gen: 3 },
   { id: 255, name: "Torchic", gen: 3 },
@@ -285,7 +283,6 @@ export const ROSTER: RosterEntry[] = [
   { id: 574, name: "Gothita", gen: 5 },
   { id: 577, name: "Solosis", gen: 5 },
   { id: 580, name: "Ducklett", gen: 5 },
-  { id: 582, name: "Vanillite", gen: 5 },
   { id: 583, name: "Vanillish", gen: 5 },
   { id: 585, name: "Deerling", gen: 5 },
   { id: 587, name: "Emolga", gen: 5 },
@@ -323,7 +320,6 @@ export const ROSTER: RosterEntry[] = [
   { id: 649, name: "Genesect", gen: 5 },
   { id: 650, name: "Chespin", gen: 6 },
   { id: 653, name: "Fennekin", gen: 6 },
-  { id: 656, name: "Froakie", gen: 6 },
   { id: 658, name: "Greninja", gen: 6 },
   { id: 659, name: "Bunnelby", gen: 6 },
   { id: 664, name: "Scatterbug", gen: 6 },
