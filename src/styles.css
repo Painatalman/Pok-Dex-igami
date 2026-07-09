@@ -98,6 +98,45 @@ body {
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
 }
 
+/* --- Options row (mode toggle + language) --- */
+.options-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.options-row .mode-toggle {
+  flex: 1;
+}
+
+.lang-select {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.lang-select select {
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.lang-select select option {
+  color: #111;
+}
+
 /* --- Mode toggle --- */
 .mode-toggle {
   display: flex;

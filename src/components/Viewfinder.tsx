@@ -33,7 +33,14 @@ function toJpegDataUrl(src: string): Promise<string> {
   });
 }
 
-export const Viewfinder = forwardRef<ViewfinderHandle>(function Viewfinder(_props, ref) {
+interface ViewfinderProps {
+  uploadLabel: string;
+}
+
+export const Viewfinder = forwardRef<ViewfinderHandle, ViewfinderProps>(function Viewfinder(
+  { uploadLabel },
+  ref,
+) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const uploadedRef = useRef<string | null>(null);
@@ -111,7 +118,7 @@ export const Viewfinder = forwardRef<ViewfinderHandle>(function Viewfinder(_prop
           {preview ? (
             <img src={preview} alt="Selected origami" className="viewfinder-media" />
           ) : (
-            <span>📷 Tap to take or choose a photo</span>
+            <span>{uploadLabel}</span>
           )}
           <input
             type="file"

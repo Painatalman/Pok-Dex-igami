@@ -1,8 +1,16 @@
 import { useMemo, useRef, useState } from "react";
 import { Viewfinder, type ViewfinderHandle } from "./components/Viewfinder";
-import { identify } from "./lib/api";
+import { identify, IdentifyError } from "./lib/api";
 import { artworkForName } from "./lib/pokeapi";
 import { loadBest, saveBest, pointsForStreak, type Best } from "./lib/score";
+import {
+  LANGS,
+  STRINGS,
+  loadLang,
+  saveLang,
+  type Lang,
+  type Strings,
+} from "./lib/i18n";
 import type { IdentifyResult } from "./types";
 
 type Mode = "scan" | "quiz";
@@ -17,13 +25,18 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
+type ErrorKey = keyof Strings["errors"];
+
 export default function App() {
   const viewfinder = useRef<ViewfinderHandle>(null);
+
+  const [lang, setLang] = useState<Lang>(() => loadLang());
+  const t = STRINGS[lang];
 
   const [mode, setMode] = useState<Mode>("scan");
   const [phase, setPhase] = useState<Phase>("idle");
   const [result, setResult] = useState<IdentifyResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState<ErrorKey>("failed");
 
   // Quiz state
   const [options, setOptions] = useState<string[]>([]);
@@ -37,17 +50,21 @@ export default function App() {
     [result],
   );
 
+  function chooseLang(next: Lang) {
+    setLang(next);
+    saveLang(next);
+  }
+
   async function doScan() {
     const img = viewfinder.current?.capture();
     if (!img) {
-      setError("Point the lens at your origami first.");
+      setErrorKey("no_image");
       setPhase("error");
       return;
     }
     setPhase("analyzing");
-    setError(null);
     try {
-      const r = await identify(img);
+      const r = await identify(img, lang);
       setResult(r);
       if (mode === "quiz") {
         setOptions(shuffle([r.pokemon, ...r.distractors]));
@@ -55,7 +72,8 @@ export default function App() {
       }
       setPhase("result");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Something went wrong.");
+      const code = e instanceof IdentifyError ? e.code : "failed";
+      setErrorKey(code in t.errors ? (code as ErrorKey) : "failed");
       setPhase("error");
     }
   }
@@ -63,7 +81,6 @@ export default function App() {
   function reset() {
     setPhase("idle");
     setResult(null);
-    setError(null);
     setPicked(null);
     setOptions([]);
   }
@@ -76,8 +93,7 @@ export default function App() {
   function pick(name: string) {
     if (picked || !result) return;
     setPicked(name);
-    const correct = name === result.pokemon;
-    if (correct) {
+    if (name === result.pokemon) {
       const nextStreak = streak + 1;
       const nextScore = score + pointsForStreak(nextStreak);
       setStreak(nextStreak);
@@ -111,39 +127,51 @@ export default function App() {
         <h1 className="title">Origami&nbsp;Dex</h1>
       </div>
 
-      <div className="mode-toggle" role="tablist" aria-label="Mode">
-        <button
-          role="tab"
-          aria-selected={mode === "scan"}
-          className={mode === "scan" ? "active" : ""}
-          onClick={() => switchMode("scan")}
-        >
-          Scan
-        </button>
-        <button
-          role="tab"
-          aria-selected={mode === "quiz"}
-          className={mode === "quiz" ? "active" : ""}
-          onClick={() => switchMode("quiz")}
-        >
-          Quiz
-        </button>
+      <div className="options-row">
+        <div className="mode-toggle" role="tablist" aria-label="Mode">
+          <button
+            role="tab"
+            aria-selected={mode === "scan"}
+            className={mode === "scan" ? "active" : ""}
+            onClick={() => switchMode("scan")}
+          >
+            {t.scan}
+          </button>
+          <button
+            role="tab"
+            aria-selected={mode === "quiz"}
+            className={mode === "quiz" ? "active" : ""}
+            onClick={() => switchMode("quiz")}
+          >
+            {t.quiz}
+          </button>
+        </div>
+        <label className="lang-select" aria-label={t.langLabel}>
+          🌐
+          <select value={lang} onChange={(e) => chooseLang(e.target.value as Lang)}>
+            {LANGS.map((l) => (
+              <option key={l.code} value={l.code}>
+                {l.label}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
 
       <div className="screen">
         <div className="screen-inner">
-          <Viewfinder ref={viewfinder} />
+          <Viewfinder ref={viewfinder} uploadLabel={t.tapToPhoto} />
 
           {phase === "analyzing" && (
             <div className="overlay analyzing">
               <div className="spinner" />
-              <p>Analyzing…</p>
+              <p>{t.analyzing}</p>
             </div>
           )}
 
           {phase === "error" && (
             <div className="overlay error">
-              <p>{error}</p>
+              <p>{t.errors[errorKey]}</p>
             </div>
           )}
 
@@ -161,8 +189,8 @@ export default function App() {
               {mode === "quiz" && (
                 <div className={picked === result.pokemon ? "verdict good" : "verdict bad"}>
                   {picked === result.pokemon
-                    ? `Correct!  +${pointsForStreak(streak)}`
-                    : `It was ${result.pokemon}`}
+                    ? `${t.correctPrefix}${pointsForStreak(streak)}`
+                    : `${t.itWasPrefix}${result.pokemon}`}
                 </div>
               )}
               {mode === "scan" && (
@@ -181,9 +209,15 @@ export default function App() {
 
       {mode === "quiz" && (
         <div className="scoreboard">
-          <span>SCORE {score}</span>
-          <span>STREAK {streak}</span>
-          <span>BEST {best.score}</span>
+          <span>
+            {t.score} {score}
+          </span>
+          <span>
+            {t.streak} {streak}
+          </span>
+          <span>
+            {t.best} {best.score}
+          </span>
         </div>
       )}
 
@@ -198,11 +232,11 @@ export default function App() {
           </div>
         ) : phase === "result" || phase === "error" ? (
           <button className="primary" onClick={reset}>
-            {mode === "quiz" && phase === "result" ? "Next" : "Scan again"}
+            {mode === "quiz" && phase === "result" ? t.next : t.scanAgain}
           </button>
         ) : (
           <button className="primary shutter" onClick={doScan} disabled={phase === "analyzing"}>
-            {mode === "scan" ? "Scan" : "Guess this one"}
+            {mode === "scan" ? t.scanBtn : t.guessBtn}
           </button>
         )}
       </div>

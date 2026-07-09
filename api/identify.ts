@@ -5,6 +5,14 @@ import type { IdentifyResult } from "../src/types";
 
 const MODEL = process.env.IDENTIFY_MODEL || "claude-sonnet-5";
 
+const LANG_NAME: Record<string, string> = {
+  en: "English",
+  pt: "Portuguese",
+  es: "Spanish",
+  fr: "French",
+  de: "German",
+};
+
 const client = new Anthropic(); // reads ANTHROPIC_API_KEY from env
 
 const SYSTEM = `You are the brain of an origami Pokédex. The user photographs a folded paper (origami) model and you decide which Pokémon it most resembles.
@@ -53,18 +61,22 @@ function randomNames(exclude: Set<string>, n: number): string[] {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
-    res.status(405).json({ error: "Method not allowed" });
+    res.status(405).json({ code: "failed", error: "Method not allowed" });
     return;
   }
   if (!process.env.ANTHROPIC_API_KEY) {
-    res.status(500).json({ error: "Server is missing ANTHROPIC_API_KEY." });
+    res.status(500).json({ code: "failed", error: "Server is missing ANTHROPIC_API_KEY." });
     return;
   }
 
   const image = (req.body?.image as string | undefined) ?? "";
+  const langCode = (req.body?.lang as string | undefined) ?? "en";
+  const languageName = LANG_NAME[langCode] ?? "English";
   const parsed = parseDataUrl(image);
   if (!parsed) {
-    res.status(400).json({ error: "Expected a base64 image data URL (jpeg/png/webp)." });
+    res
+      .status(400)
+      .json({ code: "bad_image", error: "Expected a base64 image data URL (jpeg/png/webp)." });
     return;
   }
 
@@ -87,7 +99,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 data: parsed.data,
               },
             },
-            { type: "text", text: "Which Pokémon is this origami? Respond as JSON." },
+            {
+              type: "text",
+              text: `Which Pokémon is this origami? Respond as JSON. Write the "reasoning" field in ${languageName}. Keep "pokemon" and "distractors" as their standard English Pokémon names.`,
+            },
           ],
         },
       ],
@@ -126,6 +141,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(200).json(result);
   } catch (err) {
     console.error("identify failed:", err);
-    res.status(502).json({ error: "The Pokédex could not analyze that image. Try again." });
+    const msg = err instanceof Error ? err.message : String(err);
+    if (/credit balance is too low|insufficient|billing|quota/i.test(msg)) {
+      res.status(402).json({
+        code: "no_credits",
+        error: "We're out of fuel — recharge the Pokédex to keep scanning!",
+      });
+      return;
+    }
+    if (/could not process image|image/i.test(msg)) {
+      res.status(400).json({ code: "bad_image", error: "Could not read that image." });
+      return;
+    }
+    res
+      .status(502)
+      .json({ code: "failed", error: "The Pokédex could not analyze that image. Try again." });
   }
 }
