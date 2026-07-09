@@ -163,9 +163,16 @@ export default function App() {
           <Viewfinder ref={viewfinder} uploadLabel={t.tapToPhoto} />
 
           {phase === "analyzing" && (
-            <div className="overlay analyzing">
-              <div className="spinner" />
-              <p>{t.analyzing}</p>
+            <div className="overlay scanner">
+              <div className="scan-frame">
+                <span className="corner tl" />
+                <span className="corner tr" />
+                <span className="corner bl" />
+                <span className="corner br" />
+                <div className="scan-line" />
+                <div className="reticle" />
+              </div>
+              <p className="scan-label">{t.analyzing}</p>
             </div>
           )}
 
