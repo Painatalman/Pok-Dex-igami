@@ -15,6 +15,10 @@ export interface Strings {
   best: string;
   tapToPhoto: string;
   langLabel: string;
+  dexTitle: string;
+  caughtLabel: string;
+  reset: string;
+  resetConfirm: string;
   errors: {
     no_image: string;
     bad_image: string;
@@ -57,6 +61,10 @@ export const STRINGS: Record<Lang, Strings> = {
     best: "BEST",
     tapToPhoto: "📷 Tap to take or choose a photo",
     langLabel: "Language",
+    dexTitle: "Dex",
+    caughtLabel: "CAUGHT",
+    reset: "Reset Dex",
+    resetConfirm: "Reset your caught Pokédex? This can't be undone.",
     errors: {
       no_image: "Point the lens at your origami first.",
       bad_image: "That image didn't come through. Try again.",
@@ -79,6 +87,10 @@ export const STRINGS: Record<Lang, Strings> = {
     best: "RECORDE",
     tapToPhoto: "📷 Toca para tirar ou escolher uma foto",
     langLabel: "Idioma",
+    dexTitle: "Catálogo",
+    caughtLabel: "CAPTURADOS",
+    reset: "Repor Dex",
+    resetConfirm: "Repor a tua Pokédex capturada? Isto não pode ser anulado.",
     errors: {
       no_image: "Aponta a lente ao teu origami primeiro.",
       bad_image: "Essa imagem não chegou bem. Tenta outra vez.",
@@ -101,6 +113,10 @@ export const STRINGS: Record<Lang, Strings> = {
     best: "RÉCORD",
     tapToPhoto: "📷 Toca para hacer o elegir una foto",
     langLabel: "Idioma",
+    dexTitle: "Catálogo",
+    caughtLabel: "CAPTURADOS",
+    reset: "Reiniciar Dex",
+    resetConfirm: "¿Reiniciar tu Pokédex? No se puede deshacer.",
     errors: {
       no_image: "Apunta la lente a tu origami primero.",
       bad_image: "Esa imagen no llegó bien. Inténtalo de nuevo.",
@@ -123,6 +139,10 @@ export const STRINGS: Record<Lang, Strings> = {
     best: "RECORD",
     tapToPhoto: "📷 Touchez pour prendre ou choisir une photo",
     langLabel: "Langue",
+    dexTitle: "Catalogue",
+    caughtLabel: "CAPTURÉS",
+    reset: "Réinitialiser",
+    resetConfirm: "Réinitialiser ta Pokédex ? C'est irréversible.",
     errors: {
       no_image: "Vise d'abord ton origami avec l'objectif.",
       bad_image: "Cette image n'est pas passée. Réessaie.",
@@ -145,6 +165,10 @@ export const STRINGS: Record<Lang, Strings> = {
     best: "REKORD",
     tapToPhoto: "📷 Tippen zum Fotografieren oder Auswählen",
     langLabel: "Sprache",
+    dexTitle: "Katalog",
+    caughtLabel: "GEFANGEN",
+    reset: "Zurücksetzen",
+    resetConfirm: "Deinen Pokédex zurücksetzen? Das kann nicht rückgängig gemacht werden.",
     errors: {
       no_image: "Richte die Linse zuerst auf dein Origami.",
       bad_image: "Das Bild kam nicht an. Versuch es nochmal.",

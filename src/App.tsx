@@ -1,8 +1,10 @@
 import { useMemo, useRef, useState } from "react";
 import { Viewfinder, type ViewfinderHandle } from "./components/Viewfinder";
 import { identify, IdentifyError } from "./lib/api";
-import { artworkForName } from "./lib/pokeapi";
+import { artworkForName, artworkUrl } from "./lib/pokeapi";
 import { loadBest, saveBest, pointsForStreak, type Best } from "./lib/score";
+import { loadCaught, saveCaught } from "./lib/dex";
+import { ROSTER } from "./data/roster";
 import {
   LANGS,
   STRINGS,
@@ -45,6 +47,10 @@ export default function App() {
   const [streak, setStreak] = useState(0);
   const [best, setBest] = useState<Best>(() => loadBest());
 
+  // Catch history
+  const [caught, setCaught] = useState<Set<string>>(() => loadCaught());
+  const [showDex, setShowDex] = useState(false);
+
   const revealArt = useMemo(
     () => (result ? artworkForName(result.pokemon) : null),
     [result],
@@ -53,6 +59,16 @@ export default function App() {
   function chooseLang(next: Lang) {
     setLang(next);
     saveLang(next);
+  }
+
+  function markCaught(name: string) {
+    setCaught((prev) => {
+      if (prev.has(name)) return prev;
+      const next = new Set(prev);
+      next.add(name);
+      saveCaught(next);
+      return next;
+    });
   }
 
   async function doScan() {
@@ -66,6 +82,7 @@ export default function App() {
     try {
       const r = await identify(img, lang);
       setResult(r);
+      markCaught(r.pokemon);
       if (mode === "quiz") {
         setOptions(shuffle([r.pokemon, ...r.distractors]));
         setPicked(null);
@@ -109,6 +126,14 @@ export default function App() {
     }
   }
 
+  function resetDex() {
+    if (window.confirm(t.resetConfirm)) {
+      const empty = new Set<string>();
+      setCaught(empty);
+      saveCaught(empty);
+    }
+  }
+
   const showQuizOptions = mode === "quiz" && phase === "result" && !picked;
   const showReveal =
     phase === "result" && (mode === "scan" || (mode === "quiz" && picked !== null));
@@ -146,6 +171,14 @@ export default function App() {
             {t.quiz}
           </button>
         </div>
+        <button
+          className="dex-btn"
+          aria-label={t.dexTitle}
+          title={t.dexTitle}
+          onClick={() => setShowDex(true)}
+        >
+          📚
+        </button>
         <label className="lang-select" aria-label={t.langLabel}>
           🌐
           <select value={lang} onChange={(e) => chooseLang(e.target.value as Lang)}>
@@ -247,6 +280,43 @@ export default function App() {
           </button>
         )}
       </div>
+
+      {showDex && (
+        <div className="dex">
+          <div className="dex-header">
+            <span className="dex-title">{t.dexTitle}</span>
+            <span className="dex-count">
+              {caught.size} / {ROSTER.length} {t.caughtLabel}
+            </span>
+            <button className="dex-close" aria-label="Close" onClick={() => setShowDex(false)}>
+              ✕
+            </button>
+          </div>
+          <div className="dex-grid">
+            {ROSTER.map((e) => {
+              const got = caught.has(e.name);
+              return (
+                <div className={`dex-cell ${got ? "caught" : "unknown"}`} key={e.id}>
+                  <img
+                    className="dex-art"
+                    src={artworkUrl(e.id)}
+                    alt={got ? e.name : "???"}
+                    loading="lazy"
+                  />
+                  <span className="dex-label">
+                    {got ? e.name : `#${String(e.id).padStart(3, "0")}`}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+          <div className="dex-footer">
+            <button className="dex-reset" onClick={resetDex}>
+              {t.reset}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
