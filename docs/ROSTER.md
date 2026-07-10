@@ -13,7 +13,7 @@ Two rules govern this list:
    folder would make; `color` is its dominant colour. `roster.ts` throws at
    import time if this is ever violated.
 
-Every generation is represented — Gen 1: 22 · Gen 2: 7 · Gen 3: 4 · Gen 4: 2 · Gen 5: 2 · Gen 6: 2 · Gen 7: 2 · Gen 8: 1 · Gen 9: 1.
+Every generation is represented — Gen 1: 21 · Gen 2: 8 · Gen 3: 4 · Gen 4: 2 · Gen 5: 2 · Gen 6: 2 · Gen 7: 2 · Gen 8: 1 · Gen 9: 1.
 
 `fold` and `color` are fed to the Claude vision prompt as `Name — colour fold`
 lines (see `ROSTER_PROMPT_LINES`), so they are load-bearing, not documentation.
@@ -36,7 +36,6 @@ on shape alone.
 | 100 | Voltorb | 1 | ball | red-and-white |
 | 120 | Staryu | 1 | star | orange |
 | 129 | Magikarp | 1 | fish | orange |
-| 131 | Lapras | 1 | sea dinosaur | blue |
 | 132 | Ditto | 1 | blob | purple |
 | 133 | Eevee | 1 | dog | brown |
 | 138 | Omanyte | 1 | spiral shell | blue |
@@ -50,6 +49,7 @@ on shape alone.
 | 192 | Sunflora | 2 | sunflower | yellow |
 | 198 | Murkrow | 2 | bird | black |
 | 214 | Heracross | 2 | beetle | blue |
+| 248 | Tyranitar | 2 | dinosaur | green |
 | 249 | Lugia | 2 | bird | white |
 | 255 | Torchic | 3 | chick | orange |
 | 321 | Wailord | 3 | whale | blue |

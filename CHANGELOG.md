@@ -16,3 +16,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Curated roster of 50 distinct Pokémon, each with a fold-shape and colour hint so the Pokédex tells look-alikes apart more reliably
 - Ditto now appears only when the photo isn't an origami model at all — cheerfully calling out whatever it sees instead
 - App opens in Quiz mode by default
+- Roster swaps Lapras for Tyranitar, adding a green dinosaur and easing the reliance on blue creatures
