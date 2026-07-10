@@ -19,6 +19,7 @@ export const ROSTER: RosterEntry[] = [
   { id: 94, name: "Gengar", gen: 1, fold: "ghost", color: "purple" },
   { id: 95, name: "Onix", gen: 1, fold: "snake", color: "gray" },
   { id: 100, name: "Voltorb", gen: 1, fold: "ball", color: "red-and-white" },
+  { id: 109, name: "Koffing", gen: 1, fold: "ball", color: "purple" },
   { id: 120, name: "Staryu", gen: 1, fold: "star", color: "orange" },
   { id: 129, name: "Magikarp", gen: 1, fold: "fish", color: "orange" },
   { id: 132, name: "Ditto", gen: 1, fold: "blob", color: "purple" },

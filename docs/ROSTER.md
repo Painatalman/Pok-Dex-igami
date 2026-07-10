@@ -2,7 +2,7 @@
 
 <!-- GENERATED FILE — do not edit by hand. Run `npm run roster:doc`. -->
 
-The 43 pokémon the app can identify. Source of truth is
+The 44 pokémon the app can identify. Source of truth is
 [`src/data/roster.ts`](../src/data/roster.ts).
 
 Two rules govern this list:
@@ -13,7 +13,7 @@ Two rules govern this list:
    folder would make; `color` is its dominant colour. `roster.ts` throws at
    import time if this is ever violated.
 
-Every generation is represented — Gen 1: 21 · Gen 2: 8 · Gen 3: 4 · Gen 4: 2 · Gen 5: 2 · Gen 6: 2 · Gen 7: 2 · Gen 8: 1 · Gen 9: 1.
+Every generation is represented — Gen 1: 22 · Gen 2: 8 · Gen 3: 4 · Gen 4: 2 · Gen 5: 2 · Gen 6: 2 · Gen 7: 2 · Gen 8: 1 · Gen 9: 1.
 
 `fold` and `color` are fed to the Claude vision prompt as `Name — colour fold`
 lines (see `ROSTER_PROMPT_LINES`), so they are load-bearing, not documentation.
@@ -34,6 +34,7 @@ on shape alone.
 | 94 | Gengar | 1 | ghost | purple |
 | 95 | Onix | 1 | snake | gray |
 | 100 | Voltorb | 1 | ball | red-and-white |
+| 109 | Koffing | 1 | ball | purple |
 | 120 | Staryu | 1 | star | orange |
 | 129 | Magikarp | 1 | fish | orange |
 | 132 | Ditto | 1 | blob | purple |
