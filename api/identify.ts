@@ -29,8 +29,10 @@ const SYSTEM = `You are the brain of an origami Pokédex. The user photographs a
 Rules:
 - Choose the single closest match STRICTLY from this allowed roster. Never name a Pokémon outside it. Where an entry carries a short description after an em dash, that is how a folder would read the model — use it to tell look-alikes apart, and answer with the NAME ONLY:
 ${ROSTER_PROMPT_LINES.join("\n")}
+- Work in this order: FIRST fill "observed" with a plain description of the silhouette you see; THEN pick the roster entry whose shape matches it. Decide before you let color influence you.
 - Judge PRIMARILY BY SHAPE: the silhouette, body proportions, posture, and structural features — number and shape of ears, wings, tails, horns, limbs, spikes, and body segments. Shape is by far the most important signal.
 - Treat COLOR as only a weak, secondary hint. Origami paper color is arbitrary and usually unrelated to the real Pokémon, so do NOT let color drive the match: a red fold is not Charizard just for being red, and a yellow fold is not Pikachu just for being yellow. Use color only to break a tie between two shapes that are otherwise equally plausible.
+- Several roster entries share a color (many are blue; a few are each pink, orange, white). When more than one candidate shares the fold's color, that color tells you NOTHING — choose between them on silhouette alone. A blue blimp-shaped fold is Wailord, not Piplup, however blue it is.
 - Origami is abstract, so match on the overall form and proportions, not fine surface detail.
 - "confidence" is 0-1, your honest certainty.
 - "reasoning" is one or two short, playful Pokédex-style sentences a kid would enjoy. Reference the shapes you saw.
@@ -43,6 +45,13 @@ ${ROSTER_PROMPT_LINES.join("\n")}
 const SCHEMA = {
   type: "object",
   properties: {
+    // First field, so the model describes the fold before it commits to a name —
+    // shape reasoning happens before the colour channel can shortcut the answer.
+    observed: {
+      type: "string",
+      description:
+        "Describe the silhouette FIRST, before choosing: overall body shape, posture, and countable features (ears, wings, tails, horns, limbs, spikes, segments). Do not name a Pokémon here.",
+    },
     pokemon: { type: "string", description: "The single best-match roster name." },
     confidence: { type: "number" },
     reasoning: { type: "string" },
@@ -52,7 +61,7 @@ const SCHEMA = {
       description: "Exactly two other roster names.",
     },
   },
-  required: ["pokemon", "confidence", "reasoning", "distractors"],
+  required: ["observed", "pokemon", "confidence", "reasoning", "distractors"],
   additionalProperties: false,
 } as const;
 
@@ -103,8 +112,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const message = await client.messages.create({
       model: MODEL,
-      max_tokens: 1024,
-      thinking: { type: "disabled" },
+      // Room for the model to reason about the fold before answering. Adaptive
+      // thinking counts against max_tokens, so this is larger than the JSON needs.
+      max_tokens: 4096,
+      thinking: { type: "adaptive" },
       system: SYSTEM,
       output_config: { format: { type: "json_schema", schema: SCHEMA } },
       messages: [
@@ -126,7 +137,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           ],
         },
       ],
-    } as Anthropic.MessageCreateParamsNonStreaming);
+      // `output_config` and adaptive thinking postdate the pinned SDK's types
+      // but are forwarded to the API as-is; cast through unknown to satisfy TS.
+    } as unknown as Anthropic.MessageCreateParamsNonStreaming);
 
     const textBlock = message.content.find((b) => b.type === "text");
     if (!textBlock || textBlock.type !== "text") {
