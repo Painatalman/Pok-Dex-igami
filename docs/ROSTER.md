@@ -2,7 +2,7 @@
 
 <!-- GENERATED FILE — do not edit by hand. Run `npm run roster:doc`. -->
 
-The 51 pokémon the app can identify. Source of truth is
+The 46 pokémon the app can identify. Source of truth is
 [`src/data/roster.ts`](../src/data/roster.ts).
 
 Two rules govern this list:
@@ -13,7 +13,7 @@ Two rules govern this list:
    folder would make; `color` is its dominant colour. `roster.ts` throws at
    import time if this is ever violated.
 
-Every generation is represented — Gen 1: 26 · Gen 2: 8 · Gen 3: 3 · Gen 4: 3 · Gen 5: 2 · Gen 6: 3 · Gen 7: 2 · Gen 8: 2 · Gen 9: 2.
+Every generation is represented — Gen 1: 24 · Gen 2: 8 · Gen 3: 3 · Gen 4: 1 · Gen 5: 2 · Gen 6: 2 · Gen 7: 2 · Gen 8: 2 · Gen 9: 2.
 
 `fold` and `color` are fed to the Claude vision prompt as `Name — colour fold`
 lines (see `ROSTER_PROMPT_LINES`), so they are load-bearing, not documentation.
@@ -26,11 +26,9 @@ on shape alone.
 | 6 | Charizard | 1 | dragon | orange |
 | 7 | Squirtle | 1 | turtle | blue |
 | 10 | Caterpie | 1 | caterpillar | green |
-| 16 | Pidgey | 1 | bird | brown |
 | 25 | Pikachu | 1 | mouse | yellow |
-| 37 | Vulpix | 1 | fox | red |
 | 39 | Jigglypuff | 1 | ball | pink |
-| 41 | Zubat | 1 | bat | blue |
+| 41 | Zubat | 1 | bat | purple |
 | 56 | Mankey | 1 | monkey | white |
 | 77 | Ponyta | 1 | horse | red |
 | 90 | Shellder | 1 | clam shell | purple |
@@ -59,14 +57,11 @@ on shape alone.
 | 255 | Torchic | 3 | chick | orange |
 | 321 | Wailord | 3 | whale | blue |
 | 370 | Luvdisc | 3 | heart | pink |
-| 417 | Pachirisu | 4 | squirrel | blue |
 | 427 | Buneary | 4 | rabbit | brown |
-| 449 | Hippopotas | 4 | hippo | sand |
 | 498 | Tepig | 5 | pig | orange |
 | 583 | Vanillish | 5 | ice cream | white |
 | 658 | Greninja | 6 | frog | blue |
 | 666 | Vivillon | 6 | butterfly | any |
-| 716 | Xerneas | 6 | deer | blue |
 | 775 | Komala | 7 | koala | gray |
 | 798 | Kartana | 7 | sheet of paper | white |
 | 815 | Cinderace | 8 | rabbit | red |
