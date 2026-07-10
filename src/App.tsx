@@ -4,7 +4,7 @@ import { identify, IdentifyError } from "./lib/api";
 import { artworkForName, artworkUrl } from "./lib/pokeapi";
 import { loadBest, saveBest, pointsForStreak, type Best } from "./lib/score";
 import { loadCaught, saveCaught } from "./lib/dex";
-import { ROSTER } from "./data/roster";
+import { ROSTER, isSentinel } from "./data/roster";
 import {
   LANGS,
   STRINGS,
@@ -83,7 +83,9 @@ export default function App() {
       const r = await identify(img, lang);
       setResult(r);
       markCaught(r.pokemon);
-      if (mode === "quiz") {
+      // A sentinel means the photo wasn't a fold at all, so there is nothing to
+      // guess — skip the quiz question and go straight to the reveal.
+      if (mode === "quiz" && !isSentinel(r.pokemon)) {
         setOptions(shuffle([r.pokemon, ...r.distractors]));
         setPicked(null);
       }
@@ -134,9 +136,12 @@ export default function App() {
     }
   }
 
-  const showQuizOptions = mode === "quiz" && phase === "result" && !picked;
+  // "Not an origami" answers bypass the quiz entirely and read like an error.
+  const notOrigami = result !== null && isSentinel(result.pokemon);
+  const showQuizOptions = mode === "quiz" && phase === "result" && !picked && !notOrigami;
   const showReveal =
-    phase === "result" && (mode === "scan" || (mode === "quiz" && picked !== null));
+    phase === "result" &&
+    (mode === "scan" || notOrigami || (mode === "quiz" && picked !== null));
 
   return (
     <div className="device">
@@ -216,7 +221,7 @@ export default function App() {
           )}
 
           {showReveal && result && (
-            <div className="overlay reveal">
+            <div className={notOrigami ? "overlay reveal not-origami" : "overlay reveal"}>
               {revealArt && (
                 <img
                   className="reveal-art"
@@ -226,14 +231,14 @@ export default function App() {
                 />
               )}
               <div className="reveal-name">{result.pokemon}</div>
-              {mode === "quiz" && (
+              {mode === "quiz" && !notOrigami && (
                 <div className={picked === result.pokemon ? "verdict good" : "verdict bad"}>
                   {picked === result.pokemon
                     ? `${t.correctPrefix}${pointsForStreak(streak)}`
                     : `${t.itWasPrefix}${result.pokemon}`}
                 </div>
               )}
-              {mode === "scan" && (
+              {mode === "scan" && !notOrigami && (
                 <div className="confidence">
                   <span
                     className="confidence-bar"
@@ -272,7 +277,7 @@ export default function App() {
           </div>
         ) : phase === "result" || phase === "error" ? (
           <button className="primary" onClick={reset}>
-            {mode === "quiz" && phase === "result" ? t.next : t.scanAgain}
+            {mode === "quiz" && phase === "result" && !notOrigami ? t.next : t.scanAgain}
           </button>
         ) : (
           <button className="primary shutter" onClick={doScan} disabled={phase === "analyzing"}>

@@ -18,10 +18,25 @@ Two invariants hold, and `roster.ts` throws at import time if the second breaks:
 2. No two entries share the same `(fold, color)` pair. If they did, the model
    would face a guess it cannot win.
 
+### Sentinels
+
+Two roster entries are **sentinels** — they mean "the photo is not a folded
+model", not "the fold looks like this". They are declared in the `SENTINELS` map
+in `roster.ts`:
+
+- **Kartana** — flat, unfolded paper (a pamphlet, receipt, blank sheet). Its
+  reasoning invites the user to fold it into a random real fold from the roster.
+- **Ditto** — no paper at all (a face, a pet, an object, a screen).
+
+Sentinels get a bespoke prompt line instead of `colour fold`, are excluded from
+quiz distractors, and skip the quiz question entirely in the UI (`isSentinel`).
+A sloppy fold is still a fold and must never resolve to a sentinel. Adding a new
+one means adding it to `SENTINELS`; everything else keys off that map.
+
 **Whenever `src/data/roster.ts` changes, check whether the generated list needs
 updating and regenerate it:**
 
-```
+```sh
 npm run roster:doc
 ```
 

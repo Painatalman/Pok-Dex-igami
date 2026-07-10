@@ -1,6 +1,13 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { ROSTER_NAMES, ROSTER_PROMPT_LINES, findByName } from "../src/data/roster.js";
+import {
+  FOLD_SUGGESTIONS,
+  ROSTER_NAMES,
+  ROSTER_PROMPT_LINES,
+  SENTINELS,
+  findByName,
+  isSentinel,
+} from "../src/data/roster.js";
 import type { IdentifyResult } from "../src/types";
 
 const MODEL = process.env.IDENTIFY_MODEL || "claude-sonnet-5";
@@ -15,6 +22,8 @@ const LANG_NAME: Record<string, string> = {
 
 const client = new Anthropic(); // reads ANTHROPIC_API_KEY from env
 
+const sentinelNames = Object.keys(SENTINELS).join(" or ");
+
 const SYSTEM = `You are the brain of an origami Pokédex. The user photographs a folded paper (origami) model and you decide which Pokémon it most resembles.
 
 Rules:
@@ -25,9 +34,11 @@ ${ROSTER_PROMPT_LINES.join("\n")}
 - Origami is abstract, so match on the overall form and proportions, not fine surface detail.
 - "confidence" is 0-1, your honest certainty.
 - "reasoning" is one or two short, playful Pokédex-style sentences a kid would enjoy. Reference the shapes you saw.
-- "distractors" are exactly two OTHER Pokémon from the roster that are plausible-but-wrong guesses — ideally look-alikes of your top pick. They must differ from each other and from the main pick. NEVER use Ditto as a distractor.
-- DITTO IS SPECIAL. Answer "Ditto" if, and only if, the image is not an origami model at all — a face, a pet, a random object, a photo of a screen, empty paper, a drawing. Ditto is the shapeless one, so anything that isn't folded paper is a Ditto. Set "confidence" high when you are sure it isn't origami. Keep the playful Pokédex voice: say cheerfully what you actually see and that Ditto has transformed into it.
-- A rough, sloppy, or ambiguous FOLD is still origami. Match it to the closest real Pokémon — never to Ditto. Ditto is for "this is not origami", not for "this is bad origami".`;
+- "distractors" are exactly two OTHER Pokémon from the roster that are plausible-but-wrong guesses — ideally look-alikes of your top pick. They must differ from each other and from the main pick. NEVER use ${sentinelNames} as a distractor.
+- TWO ANSWERS ARE SPECIAL, for photos that are not folded models. Set "confidence" high when you are sure, and keep the playful Pokédex voice.
+  - "Kartana" — the photo is flat, UNFOLDED paper: a pamphlet, flyer, receipt, printed page, blank sheet. Paper that could become origami but hasn't been folded. Cheerfully name what you see, then encourage the user to fold it into the origami suggested below.
+  - "Ditto" — the photo is no kind of paper at all: a face, a pet, an object, a screen, a drawing. Say cheerfully what you see, and that Ditto has transformed into it.
+- A rough, sloppy, or ambiguous FOLD is still origami. Match it to the closest real Pokémon — never to ${sentinelNames}. Those two are for "this is not a folded model", never for "this is a bad folded model". A creased, three-dimensional shape is a fold, however crude.`;
 
 const SCHEMA = {
   type: "object",
@@ -51,15 +62,15 @@ function parseDataUrl(dataUrl: string): { mediaType: string; data: string } | nu
   return { mediaType: match[1], data: match[2] };
 }
 
-/**
- * Ditto is the app's "that isn't origami" answer, so it must never turn up as a
- * quiz distractor — a real fold would then be guessable as "not a fold".
- */
-const DITTO = "Ditto";
+/** A random fold to suggest when the user photographs a blank sheet of paper. */
+function suggestFold(): string {
+  const fold = FOLD_SUGGESTIONS[Math.floor(Math.random() * FOLD_SUGGESTIONS.length)];
+  return /^[aeiou]/i.test(fold) ? `an ${fold}` : `a ${fold}`;
+}
 
-/** Pick N random roster names, excluding the given set. */
+/** Pick N random roster names, excluding sentinels and the given set. */
 function randomNames(exclude: Set<string>, n: number): string[] {
-  const pool = ROSTER_NAMES.filter((name) => name !== DITTO && !exclude.has(name));
+  const pool = ROSTER_NAMES.filter((name) => !isSentinel(name) && !exclude.has(name));
   const out: string[] = [];
   while (out.length < n && pool.length > 0) {
     const i = Math.floor(Math.random() * pool.length);
@@ -110,7 +121,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             },
             {
               type: "text",
-              text: `Which Pokémon is this origami? Respond as JSON. Write the "reasoning" field in ${languageName}. Keep "pokemon" and "distractors" as their standard English Pokémon names.`,
+              text: `Which Pokémon is this origami? Respond as JSON. Write the "reasoning" field in ${languageName}. Keep "pokemon" and "distractors" as their standard English Pokémon names. If — and only if — you answer Kartana, suggest in the reasoning that the user folds the paper into ${suggestFold()} origami.`,
             },
           ],
         },
@@ -129,7 +140,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const distractors: string[] = [];
     for (const d of raw.distractors ?? []) {
       const hit = findByName(d)?.name;
-      if (hit && hit !== DITTO && !used.has(hit)) {
+      if (hit && !isSentinel(hit) && !used.has(hit)) {
         used.add(hit);
         distractors.push(hit);
       }

@@ -43,7 +43,6 @@ export const ROSTER: RosterEntry[] = [
   { id: 263, name: "Zigzagoon", gen: 3, fold: "raccoon-dog", color: "brown" },
   { id: 321, name: "Wailord", gen: 3, fold: "whale", color: "blue" },
   { id: 370, name: "Luvdisc", gen: 3, fold: "heart", color: "pink" },
-  { id: 385, name: "Jirachi", gen: 3, fold: "star", color: "yellow" },
   { id: 427, name: "Buneary", gen: 4, fold: "rabbit", color: "brown" },
   { id: 449, name: "Hippopotas", gen: 4, fold: "hippo", color: "sand" },
   { id: 498, name: "Tepig", gen: 5, fold: "pig", color: "orange" },
@@ -52,9 +51,9 @@ export const ROSTER: RosterEntry[] = [
   { id: 666, name: "Vivillon", gen: 6, fold: "butterfly", color: "any" },
   { id: 716, name: "Xerneas", gen: 6, fold: "deer", color: "blue" },
   { id: 775, name: "Komala", gen: 7, fold: "koala", color: "gray" },
+  { id: 798, name: "Kartana", gen: 7, fold: "sheet of paper", color: "white" },
   { id: 815, name: "Cinderace", gen: 8, fold: "rabbit", color: "red" },
   { id: 818, name: "Inteleon", gen: 8, fold: "chameleon", color: "blue" },
-  { id: 932, name: "Nacli", gen: 9, fold: "box", color: "white" },
   { id: 963, name: "Finizen", gen: 9, fold: "dolphin", color: "blue" },
   { id: 973, name: "Flamigo", gen: 9, fold: "bird", color: "pink" },
 ];
@@ -76,11 +75,33 @@ export function findByName(name: string): RosterEntry | undefined {
 /** The plain list of allowed names, for constraining the model prompt. */
 export const ROSTER_NAMES: string[] = ROSTER.map((e) => e.name);
 
+/**
+ * Sentinels are answers that mean "the photo isn't a fold", not "the fold looks
+ * like this". They skip the quiz question, never appear as distractors, and get
+ * a bespoke prompt line — describing Ditto as "a purple blob" would invite the
+ * model to match it against any shapeless fold.
+ */
+export const SENTINELS: Record<string, string> = {
+  Kartana:
+    "ONLY for flat, unfolded paper — a pamphlet, a flyer, a receipt, a printed page, a blank sheet. Paper that could become origami but hasn't been folded yet",
+  Ditto:
+    "ONLY for a photo that is no kind of paper at all — a face, a pet, an object, a screen, a drawing",
+};
+
+export function isSentinel(name: string): boolean {
+  const entry = findByName(name);
+  return entry ? entry.name in SENTINELS : false;
+}
+
+/** The folds a real pokémon can be, for suggesting what to make out of a blank sheet. */
+export const FOLD_SUGGESTIONS: string[] = ROSTER.filter((e) => !(e.name in SENTINELS)).map(
+  (e) => e.fold,
+);
+
 /** One line per entry: the name plus its colour-and-fold read. */
 export const ROSTER_PROMPT_LINES: string[] = ROSTER.map((e) => {
-  // Ditto means "this photo is not origami". Describing it as a purple blob
-  // would invite the model to match it against any shapeless fold.
-  if (e.name === "Ditto") return `${e.name} — ONLY for a photo that is not origami at all`;
+  const sentinel = SENTINELS[e.name];
+  if (sentinel) return `${e.name} — ${sentinel}`;
   // Vivillon's wings come in 20 patterns, so colour tells the model nothing.
   if (e.color === "any") return `${e.name} — ${e.fold}, any colour`;
   return `${e.name} — ${e.color} ${e.fold}`;

@@ -267,6 +267,20 @@ body {
   color: #ffd9d4;
 }
 
+/* A sentinel result ("that isn't origami") reads as an error, not a reveal. */
+.overlay.reveal.not-origami {
+  color: #ffd9d4;
+}
+
+.overlay.reveal.not-origami .reveal-name {
+  color: #ffd9d4;
+}
+
+.overlay.reveal.not-origami .reveal-art {
+  width: 34%;
+  opacity: 0.85;
+}
+
 .spinner {
   width: 44px;
   height: 44px;

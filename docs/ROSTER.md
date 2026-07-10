@@ -2,7 +2,7 @@
 
 <!-- GENERATED FILE — do not edit by hand. Run `npm run roster:doc`. -->
 
-The 50 pokémon the app can identify. Source of truth is
+The 49 pokémon the app can identify. Source of truth is
 [`src/data/roster.ts`](../src/data/roster.ts).
 
 Two rules govern this list:
@@ -13,7 +13,7 @@ Two rules govern this list:
    folder would make; `color` is its dominant colour. `roster.ts` throws at
    import time if this is ever violated.
 
-Every generation is represented — Gen 1: 26 · Gen 2: 7 · Gen 3: 4 · Gen 4: 2 · Gen 5: 2 · Gen 6: 3 · Gen 7: 1 · Gen 8: 2 · Gen 9: 3.
+Every generation is represented — Gen 1: 26 · Gen 2: 7 · Gen 3: 3 · Gen 4: 2 · Gen 5: 2 · Gen 6: 3 · Gen 7: 2 · Gen 8: 2 · Gen 9: 2.
 
 `fold` and `color` are fed to the Claude vision prompt as `Name — colour fold`
 lines (see `ROSTER_PROMPT_LINES`), so they are load-bearing, not documentation.
@@ -58,7 +58,6 @@ on shape alone.
 | 263 | Zigzagoon | 3 | raccoon-dog | brown |
 | 321 | Wailord | 3 | whale | blue |
 | 370 | Luvdisc | 3 | heart | pink |
-| 385 | Jirachi | 3 | star | yellow |
 | 427 | Buneary | 4 | rabbit | brown |
 | 449 | Hippopotas | 4 | hippo | sand |
 | 498 | Tepig | 5 | pig | orange |
@@ -67,8 +66,8 @@ on shape alone.
 | 666 | Vivillon | 6 | butterfly | any |
 | 716 | Xerneas | 6 | deer | blue |
 | 775 | Komala | 7 | koala | gray |
+| 798 | Kartana | 7 | sheet of paper | white |
 | 815 | Cinderace | 8 | rabbit | red |
 | 818 | Inteleon | 8 | chameleon | blue |
-| 932 | Nacli | 9 | box | white |
 | 963 | Finizen | 9 | dolphin | blue |
 | 973 | Flamigo | 9 | bird | pink |
