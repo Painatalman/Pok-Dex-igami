@@ -30,7 +30,6 @@ export const ROSTER: RosterEntry[] = [
   { id: 145, name: "Zapdos", gen: 1, fold: "bird", color: "yellow" },
   { id: 151, name: "Mew", gen: 1, fold: "cat", color: "pink" },
   { id: 167, name: "Spinarak", gen: 2, fold: "spider", color: "green" },
-  { id: 175, name: "Togepi", gen: 2, fold: "egg", color: "white" },
   { id: 185, name: "Sudowoodo", gen: 2, fold: "tree", color: "brown" },
   { id: 192, name: "Sunflora", gen: 2, fold: "sunflower", color: "yellow" },
   { id: 198, name: "Murkrow", gen: 2, fold: "bird", color: "black" },
