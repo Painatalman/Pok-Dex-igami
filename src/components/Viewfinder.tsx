@@ -10,6 +10,8 @@ import {
 export interface ViewfinderHandle {
   /** Grab the current frame (or uploaded photo) as a JPEG data URL. */
   capture: () => string | null;
+  /** Return the live camera to motion after a frozen capture. */
+  resume: () => void;
 }
 
 /** Re-encode any uploaded image to a JPEG data URL the backend accepts. */
@@ -46,6 +48,9 @@ export const Viewfinder = forwardRef<ViewfinderHandle, ViewfinderProps>(function
   const uploadedRef = useRef<string | null>(null);
   const [fallback, setFallback] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
+  // The still frame shown while a capture is being judged, so the user can see
+  // exactly what was scanned instead of the camera drifting on behind it.
+  const [frozen, setFrozen] = useState<string | null>(null);
 
   useEffect(() => {
     let stream: MediaStream | null = null;
@@ -85,9 +90,14 @@ export const Viewfinder = forwardRef<ViewfinderHandle, ViewfinderProps>(function
           const ctx = canvas.getContext("2d");
           if (!ctx) return null;
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          return canvas.toDataURL("image/jpeg", 0.85);
+          const frame = canvas.toDataURL("image/jpeg", 0.85);
+          setFrozen(frame); // hold this still frame over the live feed
+          return frame;
         }
         return uploadedRef.current;
+      },
+      resume() {
+        setFrozen(null);
       },
     }),
     [fallback],
@@ -112,7 +122,12 @@ export const Viewfinder = forwardRef<ViewfinderHandle, ViewfinderProps>(function
   return (
     <div className="viewfinder">
       {!fallback ? (
-        <video ref={videoRef} autoPlay playsInline muted className="viewfinder-media" />
+        <>
+          <video ref={videoRef} autoPlay playsInline muted className="viewfinder-media" />
+          {frozen && (
+            <img src={frozen} alt="Scanned frame" className="viewfinder-media viewfinder-frozen" />
+          )}
+        </>
       ) : (
         <label className="viewfinder-upload">
           {preview ? (

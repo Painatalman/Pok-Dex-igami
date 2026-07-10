@@ -231,9 +231,19 @@ body {
   height: 100%;
 }
 
+.viewfinder {
+  position: relative;
+}
+
 .viewfinder-media {
   object-fit: cover;
   display: block;
+}
+
+/* Frozen still sits directly over the live video so the scan stays visible. */
+.viewfinder-frozen {
+  position: absolute;
+  inset: 0;
 }
 
 .viewfinder-upload {

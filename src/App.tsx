@@ -108,6 +108,7 @@ export default function App() {
     setResult(null);
     setPicked(null);
     setOptions([]);
+    viewfinder.current?.resume(); // thaw the frozen frame, go back to live
   }
 
   function switchMode(next: Mode) {
