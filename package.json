@@ -7,7 +7,8 @@
     "dev": "vite",
     "dev:full": "vercel dev",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "roster:doc": "node scripts/gen-roster-doc.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.68.0",
@@ -20,6 +21,7 @@
     "@types/react-dom": "^19.1.0",
     "@vercel/node": "^5.1.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "playwright": "^1.61.1",
     "typescript": "^5.7.2",
     "vite": "^6.0.5"
   }

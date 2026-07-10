@@ -35,7 +35,7 @@ export default function App() {
   const [lang, setLang] = useState<Lang>(() => loadLang());
   const t = STRINGS[lang];
 
-  const [mode, setMode] = useState<Mode>("scan");
+  const [mode, setMode] = useState<Mode>("quiz");
   const [phase, setPhase] = useState<Phase>("idle");
   const [result, setResult] = useState<IdentifyResult | null>(null);
   const [errorKey, setErrorKey] = useState<ErrorKey>("failed");

@@ -1,6 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { ROSTER_NAMES, findByName } from "../src/data/roster.js";
+import { ROSTER_NAMES, ROSTER_PROMPT_LINES, findByName } from "../src/data/roster.js";
 import type { IdentifyResult } from "../src/types";
 
 const MODEL = process.env.IDENTIFY_MODEL || "claude-sonnet-5";
@@ -18,15 +18,16 @@ const client = new Anthropic(); // reads ANTHROPIC_API_KEY from env
 const SYSTEM = `You are the brain of an origami Pokédex. The user photographs a folded paper (origami) model and you decide which Pokémon it most resembles.
 
 Rules:
-- Choose the single closest match STRICTLY from this allowed roster. Never name a Pokémon outside it:
-${ROSTER_NAMES.join(", ")}
+- Choose the single closest match STRICTLY from this allowed roster. Never name a Pokémon outside it. Where an entry carries a short description after an em dash, that is how a folder would read the model — use it to tell look-alikes apart, and answer with the NAME ONLY:
+${ROSTER_PROMPT_LINES.join("\n")}
 - Judge PRIMARILY BY SHAPE: the silhouette, body proportions, posture, and structural features — number and shape of ears, wings, tails, horns, limbs, spikes, and body segments. Shape is by far the most important signal.
 - Treat COLOR as only a weak, secondary hint. Origami paper color is arbitrary and usually unrelated to the real Pokémon, so do NOT let color drive the match: a red fold is not Charizard just for being red, and a yellow fold is not Pikachu just for being yellow. Use color only to break a tie between two shapes that are otherwise equally plausible.
 - Origami is abstract, so match on the overall form and proportions, not fine surface detail.
 - "confidence" is 0-1, your honest certainty.
 - "reasoning" is one or two short, playful Pokédex-style sentences a kid would enjoy. Reference the shapes you saw.
-- "distractors" are exactly two OTHER Pokémon from the roster that are plausible-but-wrong guesses — ideally look-alikes of your top pick. They must differ from each other and from the main pick.
-- If the image is clearly not an origami model (a face, a random object, empty paper), still pick the closest whimsical match and say so briefly in the reasoning.`;
+- "distractors" are exactly two OTHER Pokémon from the roster that are plausible-but-wrong guesses — ideally look-alikes of your top pick. They must differ from each other and from the main pick. NEVER use Ditto as a distractor.
+- DITTO IS SPECIAL. Answer "Ditto" if, and only if, the image is not an origami model at all — a face, a pet, a random object, a photo of a screen, empty paper, a drawing. Ditto is the shapeless one, so anything that isn't folded paper is a Ditto. Set "confidence" high when you are sure it isn't origami. Keep the playful Pokédex voice: say cheerfully what you actually see and that Ditto has transformed into it.
+- A rough, sloppy, or ambiguous FOLD is still origami. Match it to the closest real Pokémon — never to Ditto. Ditto is for "this is not origami", not for "this is bad origami".`;
 
 const SCHEMA = {
   type: "object",
@@ -50,9 +51,15 @@ function parseDataUrl(dataUrl: string): { mediaType: string; data: string } | nu
   return { mediaType: match[1], data: match[2] };
 }
 
+/**
+ * Ditto is the app's "that isn't origami" answer, so it must never turn up as a
+ * quiz distractor — a real fold would then be guessable as "not a fold".
+ */
+const DITTO = "Ditto";
+
 /** Pick N random roster names, excluding the given set. */
 function randomNames(exclude: Set<string>, n: number): string[] {
-  const pool = ROSTER_NAMES.filter((name) => !exclude.has(name));
+  const pool = ROSTER_NAMES.filter((name) => name !== DITTO && !exclude.has(name));
   const out: string[] = [];
   while (out.length < n && pool.length > 0) {
     const i = Math.floor(Math.random() * pool.length);
@@ -122,7 +129,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const distractors: string[] = [];
     for (const d of raw.distractors ?? []) {
       const hit = findByName(d)?.name;
-      if (hit && !used.has(hit)) {
+      if (hit && hit !== DITTO && !used.has(hit)) {
         used.add(hit);
         distractors.push(hit);
       }
