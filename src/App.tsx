@@ -18,6 +18,12 @@ import type { IdentifyResult } from "./types";
 type Mode = "scan" | "quiz";
 type Phase = "idle" | "analyzing" | "result" | "error";
 
+/**
+ * Scan mode is finished but held back for now. While this is false the app runs
+ * quiz-only and the Scan/Quiz toggle is hidden — flip it to re-enable both.
+ */
+const SCAN_ENABLED = false;
+
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -158,24 +164,26 @@ export default function App() {
       </div>
 
       <div className="options-row">
-        <div className="mode-toggle" role="tablist" aria-label="Mode">
-          <button
-            role="tab"
-            aria-selected={mode === "scan"}
-            className={mode === "scan" ? "active" : ""}
-            onClick={() => switchMode("scan")}
-          >
-            {t.scan}
-          </button>
-          <button
-            role="tab"
-            aria-selected={mode === "quiz"}
-            className={mode === "quiz" ? "active" : ""}
-            onClick={() => switchMode("quiz")}
-          >
-            {t.quiz}
-          </button>
-        </div>
+        {SCAN_ENABLED && (
+          <div className="mode-toggle" role="tablist" aria-label="Mode">
+            <button
+              role="tab"
+              aria-selected={mode === "scan"}
+              className={mode === "scan" ? "active" : ""}
+              onClick={() => switchMode("scan")}
+            >
+              {t.scan}
+            </button>
+            <button
+              role="tab"
+              aria-selected={mode === "quiz"}
+              className={mode === "quiz" ? "active" : ""}
+              onClick={() => switchMode("quiz")}
+            >
+              {t.quiz}
+            </button>
+          </div>
+        )}
         <button
           className="dex-btn"
           aria-label={t.dexTitle}
