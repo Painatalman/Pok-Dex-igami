@@ -2,7 +2,7 @@
 
 <!-- GENERATED FILE — do not edit by hand. Run `npm run roster:doc`. -->
 
-The 47 pokémon the app can identify. Source of truth is
+The 51 pokémon the app can identify. Source of truth is
 [`src/data/roster.ts`](../src/data/roster.ts).
 
 Two rules govern this list:
@@ -15,7 +15,7 @@ Two rules govern this list:
    folder would make; `color` is its dominant colour. `roster.ts` throws at
    import time if this is ever violated.
 
-Every generation is represented — Gen 1: 24 · Gen 2: 5 · Gen 3: 6 · Gen 4: 4 · Gen 5: 1 · Gen 6: 2 · Gen 7: 3 · Gen 8: 1 · Gen 9: 1.
+Every generation is represented — Gen 1: 25 · Gen 2: 5 · Gen 3: 6 · Gen 4: 4 · Gen 5: 4 · Gen 6: 2 · Gen 7: 3 · Gen 8: 1 · Gen 9: 1.
 
 `fold` and `color` are fed to the Claude vision prompt as `Name — colour fold`
 lines (see `ROSTER_PROMPT_LINES`), so they are load-bearing, not documentation.
@@ -27,6 +27,7 @@ on shape alone.
 | 2 | Ivysaur | 1 | rose | pink |
 | 6 | Charizard | 1 | dragon | orange |
 | 7 | Squirtle | 1 | turtle | blue |
+| 10 | Caterpie | 1 | caterpillar | green |
 | 11 | Metapod | 1 | cocoon | green |
 | 25 | Pikachu | 1 | mouse | yellow |
 | 39 | Jigglypuff | 1 | ball | pink |
@@ -63,6 +64,9 @@ on shape alone.
 | 427 | Buneary | 4 | rabbit | brown |
 | 458 | Mantyke | 4 | ray | blue |
 | 479 | Rotom | 4 | lightning bolt | orange |
+| 511 | Pansage | 5 | monkey | green |
+| 513 | Pansear | 5 | monkey | red |
+| 515 | Panpour | 5 | monkey | blue |
 | 583 | Vanillish | 5 | ice cream | white |
 | 658 | Greninja | 6 | frog | blue |
 | 666 | Vivillon | 6 | butterfly | any |

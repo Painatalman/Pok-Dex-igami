@@ -41,6 +41,16 @@ export const POKEDEX_DATA: Record<number, DexEntryData> = {
       de: ["Es zieht sich in seinen Panzer zurück und greift dann mit Wasserstrahlen seine Gegner an.", "Dieses Pokémon jagt mit einem Wasserstrahl. Bei Gefahr zieht es sich in seinen Panzer zurück."],
     },
   },
+  10: {
+    types: ["bug"],
+    facts: {
+      en: ["Its short feet are tipped with suction pads that enable it to tirelessly climb slopes and walls.", "If you touch the feeler on top of its head, it will release a horrible stink to protect itself."],
+      pt: ["Its short feet are tipped with suction pads that enable it to tirelessly climb slopes and walls.", "If you touch the feeler on top of its head, it will release a horrible stink to protect itself."],
+      es: ["Para protegerse despide un hedor horrible de sus antenas, con el que repele a sus enemigos.", "Sus patas tienen ventosas con las que se adhiere a cualquier sitio. Escala árboles buscando forraje."],
+      fr: ["Ses antennes rouges libèrent une puanteur qui repousse l’ennemi. Il grandit par mues régulières.", "Pour se protéger, il émet un gaz puant par ses antennes, qui fait fuir ses ennemis audacieux."],
+      de: ["Als Schutz vor Feinden sondert es einen übel riechenden Gestank mit seinen Antennen ab.", "Die Saugnäpfe an den Beinen haften auf jedem Untergrund. Es sucht hartnäckig in Bäumen nach Futter."],
+    },
+  },
   11: {
     types: ["bug"],
     facts: {
@@ -399,6 +409,36 @@ export const POKEDEX_DATA: Record<number, DexEntryData> = {
       es: ["Desde hace mucho tiempo se estudia su singular motor como fuente de energía motriz.", "Su cuerpo está hecho de plasma. Puede infiltrarse en dispositivos electrónicos e inutilizarlos."],
       fr: ["Son corps parcouru d’électricité lui permet de prendre le contrôle de certains appareils ménagers.", "Un Pokémon longtemps étudié comme source d’énergie pour un moteur très spécial."],
       de: ["Dieses Pokémon wurde lange Zeit erforscht, um als Energiequelle für einen besonderen Motor zu dienen.", "Sein Körper besteht aus Plasma. Mit ihm kann es in elektrische Geräte eindringen und für Chaos sorgen."],
+    },
+  },
+  511: {
+    types: ["grass"],
+    facts: {
+      en: ["This Pokémon dwells deep in the forest. Eating a leaf from its head whisks weariness away as if by magic.", "It shares the leaf on its head with weary-looking Pokémon. These leaves are known to relieve stress."],
+      pt: ["This Pokémon dwells deep in the forest. Eating a leaf from its head whisks weariness away as if by magic.", "It shares the leaf on its head with weary-looking Pokémon. These leaves are known to relieve stress."],
+      es: ["Comparte las hojas de su cabeza con Pokémon agotados. Posee la facultad de aliviar el cansancio.", "Es todo un experto en la búsqueda de bayas y es tan gentil que las comparte con todos sus compañeros."],
+      fr: ["Il vit dans les forêts profondes. Manger la feuille qui pousse sur sa tête fait disparaître la fatigue.", "Les feuilles qui poussent sur sa tête soignent la fatigue. Il en donne aux Pokémon affaiblis."],
+      de: ["Schwächelnden Pokémon gibt es ein paar der Kräuter auf seinem Kopf ab und hilft ihnen so wieder auf die Beine.", "Ein nettes Kerlchen, das so talentiert darin ist, Beeren aufzuspüren, dass es sie mit all seinen Kameraden teilt."],
+    },
+  },
+  513: {
+    types: ["fire"],
+    facts: {
+      en: ["When it is angered, the temperature of its head tuft reaches 600° F. It uses its tuft to roast berries.", "This Pokémon lives in caves in volcanoes. The fire within the tuft on its head can reach 600° F."],
+      pt: ["When it is angered, the temperature of its head tuft reaches 600° F. It uses its tuft to roast berries.", "This Pokémon lives in caves in volcanoes. The fire within the tuft on its head can reach 600° F."],
+      es: ["Pokémon muy inteligente que tiene la costumbre de tostar las bayas antes de comérselas. Ayuda mucho a los humanos.", "Vive en cuevas volcánicas. El interior de su mata de pelo arde, llegando a alcanzar hasta 300 °C."],
+      fr: ["Quand il s’énerve, la mèche sur sa tête chauffe à 300 °C. Il s’en sert pour griller des Baies et les manger.", "Il vit dans les cratères des volcans. L’intérieur de la mèche qu’il a sur la tête peut atteindre 300 °C."],
+      de: ["Ein kultiviertes Pokémon, das Beeren vor dem Verzehr stets anbrät. Es bietet den Menschen gerne seine Hilfe an.", "Das Feuer in seinem Kopfbüschel erreicht Temperaturen von bis zu 300 °C. Es ist in Vulkanhöhlen zu Hause."],
+    },
+  },
+  515: {
+    types: ["water"],
+    facts: {
+      en: ["The water stored inside the tuft on its head is full of nutrients. Plants that receive its water grow large.", "It does not thrive in dry environments. It keeps itself damp by shooting water stored in its head tuft from its tail."],
+      pt: ["The water stored inside the tuft on its head is full of nutrients. Plants that receive its water grow large.", "It does not thrive in dry environments. It keeps itself damp by shooting water stored in its head tuft from its tail."],
+      es: ["El agua acumulada en su mata de pelo es rica en nutrientes. Usa su cola para regar plantas con esa misma agua.", "La acuosidad que acumula en su mata de pelo es rica en nutrientes, ideal para regar plantas y que crezcan mucho."],
+      fr: ["L’eau contenue dans la mèche sur sa tête est pleine de nutriments. Elle fait pousser les plantes avec vigueur.", "Il supporte mal les environnements secs. Il s’humidifie avec sa queue en aspirant l’eau stockée dans la mèche sur sa tête."],
+      de: ["Das Büschel auf seinem Kopf enthält eine sehr nahrhafte Flüssigkeit, mit der es über seinen Schweif Pflanzen wässert.", "Das Wasser, das es im Büschel auf seinem Kopf sammelt, ist äußerst nahrhaft und verhilft Pflanzen zu großem Wachstum."],
     },
   },
   583: {
