@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Fold diagrams are now hidden behind a show/hide toggle, with video folds playing in an embedded YouTube player
+
 ### Changed
 
 - Sharpened how Rotom and Dratini are described so the Pokédex recognizes their folded shapes more reliably

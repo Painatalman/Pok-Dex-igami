@@ -347,6 +347,7 @@ export default function App() {
 
           {selected && (
             <DexDetail
+              key={selected.id}
               entry={selected}
               caught={caught.has(selected.name)}
               lang={lang}

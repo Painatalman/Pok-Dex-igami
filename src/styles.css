@@ -837,6 +837,55 @@ body {
   text-align: center;
 }
 
+.fold-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--red-dark);
+  background: rgba(0, 0, 0, 0.07);
+  cursor: pointer;
+}
+
+.fold-toggle:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.fold-caret {
+  font-size: 9px;
+}
+
+.fold-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.fold-video {
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+}
+
+.fold-video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .detail-diagram {
   width: 100%;
   max-width: 240px;
