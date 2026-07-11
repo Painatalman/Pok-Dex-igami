@@ -2,7 +2,7 @@
 
 <!-- GENERATED FILE — do not edit by hand. Run `npm run roster:doc`. -->
 
-The 51 pokémon the app can identify. Source of truth is
+The 45 pokémon the app can identify. Source of truth is
 [`src/data/roster.ts`](../src/data/roster.ts).
 
 Two rules govern this list:
@@ -15,7 +15,7 @@ Two rules govern this list:
    folder would make; `color` is its dominant colour. `roster.ts` throws at
    import time if this is ever violated.
 
-Every generation is represented — Gen 1: 25 · Gen 2: 5 · Gen 3: 6 · Gen 4: 4 · Gen 5: 4 · Gen 6: 2 · Gen 7: 3 · Gen 8: 1 · Gen 9: 1.
+Every generation is represented — Gen 1: 23 · Gen 2: 4 · Gen 3: 6 · Gen 4: 4 · Gen 5: 1 · Gen 6: 2 · Gen 7: 3 · Gen 8: 1 · Gen 9: 1.
 
 `fold` and `color` are fed to the Claude vision prompt as `Name — colour fold`
 lines (see `ROSTER_PROMPT_LINES`), so they are load-bearing, not documentation.
@@ -27,12 +27,10 @@ on shape alone.
 | 2 | Ivysaur | 1 | rose | pink |
 | 6 | Charizard | 1 | dragon | orange |
 | 7 | Squirtle | 1 | turtle | blue |
-| 10 | Caterpie | 1 | caterpillar | green |
-| 11 | Metapod | 1 | cocoon | green |
+| 10 | Caterpie/Metapod | 1 | caterpillar | green |
 | 25 | Pikachu | 1 | mouse | yellow |
 | 39 | Jigglypuff | 1 | ball | pink |
 | 41 | Zubat | 1 | bat | purple |
-| 56 | Mankey | 1 | monkey | white |
 | 77 | Ponyta | 1 | horse | red |
 | 94 | Gengar | 1 | ghost | purple |
 | 95 | Onix | 1 | snake | gray |
@@ -47,12 +45,11 @@ on shape alone.
 | 138 | Omanyte | 1 | spiral shell | blue |
 | 144 | Articuno | 1 | bird | blue |
 | 145 | Zapdos | 1 | bird | yellow |
-| 147 | Dratini | 1 | snake | purple |
+| 147 | Dratini | 1 | squat creature with a big domed head, two ears flaring out sideways, and a vertically striped belly | purple-and-white |
 | 151 | Mew | 1 | cat | pink |
 | 167 | Spinarak | 2 | spider | green |
 | 185 | Sudowoodo | 2 | tree | brown |
 | 192 | Sunflora | 2 | sunflower | yellow |
-| 248 | Tyranitar | 2 | dinosaur | green |
 | 249 | Lugia | 2 | bird | white |
 | 255 | Torchic | 3 | chick | orange |
 | 321 | Wailord | 3 | whale | blue |
@@ -63,10 +60,7 @@ on shape alone.
 | 393 | Piplup | 4 | penguin | blue |
 | 427 | Buneary | 4 | rabbit | brown |
 | 458 | Mantyke | 4 | ray | blue |
-| 479 | Rotom | 4 | lightning bolt | orange |
-| 511 | Pansage | 5 | monkey | green |
-| 513 | Pansear | 5 | monkey | red |
-| 515 | Panpour | 5 | monkey | blue |
+| 479 | Rotom | 4 | crested figure with two spread arms | orange-and-white |
 | 583 | Vanillish | 5 | ice cream | white |
 | 658 | Greninja | 6 | frog | blue |
 | 666 | Vivillon | 6 | butterfly | any |

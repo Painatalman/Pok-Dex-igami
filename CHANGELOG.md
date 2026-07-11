@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Sharpened how Rotom and Dratini are described so the Pokédex recognizes their folded shapes more reliably
+- Caterpie and Metapod are now treated as a single fold
+
+### Removed
+
+- Trimmed the roster to 45 Pokémon, dropping Tyranitar and the Mankey, Pansage, Pansear and Panpour monkeys
+
 ---
 
 ## [0.2.0] — 2026-07-10
