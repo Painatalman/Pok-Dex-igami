@@ -24,13 +24,19 @@ Two invariants hold:
 
 ### Sentinels
 
-Two roster entries are **sentinels** — they mean "the photo is not a folded
+Three roster entries are **sentinels** — they mean "the photo is not a folded
 model", not "the fold looks like this". They are declared in the `SENTINELS` map
 in `roster.ts`:
 
 - **Kartana** — flat, unfolded paper (a pamphlet, receipt, blank sheet). Its
   reasoning invites the user to fold it into a random real fold from the roster.
-- **Ditto** — no paper at all (a face, a pet, an object, a screen).
+- **Sudowoodo** — a real, living plant (a tree, bush, flower, houseplant). The
+  tree-mimic "hides among" real plants. Takes precedence over Ditto for plants.
+- **Ditto** — no paper at all (a face, a pet, an object, a screen) — but not a
+  living plant, which is Sudowoodo.
+
+The identify prompt (`api/identify.ts`) also hard-lists these special answers, so
+adding or changing a sentinel means updating that prompt too, not just the map.
 
 Sentinels get a bespoke prompt line instead of `colour fold`, are excluded from
 quiz distractors, and skip the quiz question entirely in the UI (`isSentinel`).

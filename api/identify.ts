@@ -37,9 +37,10 @@ ${ROSTER_PROMPT_LINES.join("\n")}
 - "confidence" is 0-1, your honest certainty.
 - "reasoning" is one or two short, playful Pokédex-style sentences a kid would enjoy. Reference the shapes you saw.
 - "distractors" are exactly two OTHER Pokémon from the roster that are plausible-but-wrong guesses — ideally look-alikes of your top pick. They must differ from each other and from the main pick. NEVER use ${sentinelNames} as a distractor.
-- TWO ANSWERS ARE SPECIAL, for photos that are not folded models. Set "confidence" high when you are sure, and keep the playful Pokédex voice.
+- THREE ANSWERS ARE SPECIAL, for photos that are not folded models. Set "confidence" high when you are sure, and keep the playful Pokédex voice.
   - "Kartana" — the photo is flat, UNFOLDED paper: a pamphlet, flyer, receipt, printed page, blank sheet. Paper that could become origami but hasn't been folded. Cheerfully name what you see, then encourage the user to fold it into the origami suggested below.
-  - "Ditto" — the photo is no kind of paper at all: a face, a pet, an object, a screen, a drawing. Say cheerfully what you see, and that Ditto has transformed into it.
+  - "Sudowoodo" — the photo is a real, LIVING plant: a tree, bush, flower, houseplant, leaves, or grass. Say cheerfully that Sudowoodo was hiding among the real plants, imitating one to blend in.
+  - "Ditto" — the photo is no kind of paper at all AND not a living plant: a face, a pet, an object, a screen, a drawing. Say cheerfully what you see, and that Ditto has transformed into it. (A living plant is Sudowoodo, not Ditto.)
 - A rough, sloppy, or ambiguous FOLD is still origami. Match it to the closest real Pokémon — never to ${sentinelNames}. Those two are for "this is not a folded model", never for "this is a bad folded model". A creased, three-dimensional shape is a fold, however crude.`;
 
 const SCHEMA = {

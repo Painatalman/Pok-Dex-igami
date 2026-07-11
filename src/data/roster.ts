@@ -82,8 +82,10 @@ export const ROSTER_NAMES: string[] = ROSTER.map((e) => e.name);
 export const SENTINELS: Record<string, string> = {
   Kartana:
     "ONLY for flat, unfolded paper — a pamphlet, a flyer, a receipt, a printed page, a blank sheet. Paper that could become origami but hasn't been folded yet",
+  Sudowoodo:
+    "ONLY for a photo of a real, living plant — a tree, a bush, a flower, a houseplant, leaves, or grass. Sudowoodo hides among real plants by imitating one. Not paper, and not a folded model",
   Ditto:
-    "ONLY for a photo that is no kind of paper at all — a face, a pet, an object, a screen, a drawing",
+    "ONLY for a photo that is no kind of paper at all — a face, a pet, an object, a screen, a drawing. But a real living plant is Sudowoodo, not Ditto",
 };
 
 export function isSentinel(name: string): boolean {
