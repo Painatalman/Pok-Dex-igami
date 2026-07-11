@@ -50,8 +50,10 @@ The ${entries.length} pokémon the app can identify. Source of truth is
 
 Two rules govern this list:
 
-1. **At most one pokémon per evolution family.** An origami fold is abstract, so
-   two stages of the same line are indistinguishable once folded.
+1. **No two same-family entries that are alike in both fold and colour.** An
+   origami fold is abstract, so look-alike stages of one line collapse to the
+   same shape — but stages as distinct as Magikarp (orange fish) and Gyarados
+   (blue serpent) earn separate slots. A judgement call, not enforced in code.
 2. **No two entries share the same (fold, colour) pair.** \`fold\` is the shape a
    folder would make; \`color\` is its dominant colour. \`roster.ts\` throws at
    import time if this is ever violated.
