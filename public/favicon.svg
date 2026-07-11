@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#c0392b"/>
+  <g fill="#ffffff">
+    <!-- raised wings (broad quads, upward V) -->
+    <polygon points="246,288 178,138 138,176 224,282"/>
+    <polygon points="268,288 334,138 374,176 290,282"/>
+    <!-- neck sweeping to the left -->
+    <polygon points="244,288 96,208 150,248 238,298"/>
+    <!-- head + beak -->
+    <polygon points="96,208 60,202 94,230"/>
+    <!-- tail sweeping to the right -->
+    <polygon points="268,292 434,250 360,324"/>
+    <!-- body -->
+    <polygon points="240,285 298,300 260,372 214,328"/>
+  </g>
+</svg>
