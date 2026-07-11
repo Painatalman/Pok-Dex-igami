@@ -6,3 +6,8 @@ dist
 .env.local
 *.local
 .DS_Store
+
+# Raw origami-diagram drop folder (18MB of originals + saved web pages).
+# Optimized, app-served copies live in public/origami-diagrams/ and ARE committed.
+# Leading slash anchors this to the repo root so it does NOT match public/origami-diagrams/.
+/origami-diagrams/
