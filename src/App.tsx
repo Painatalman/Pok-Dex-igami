@@ -1,5 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import { Viewfinder, type ViewfinderHandle } from "./components/Viewfinder";
+import { DexDetail } from "./components/DexDetail";
+import { UpdatePrompt } from "./components/UpdatePrompt";
 import { identify, IdentifyError } from "./lib/api";
 import { artworkForName, artworkUrl } from "./lib/pokeapi";
 import { loadBest, saveBest, pointsForStreak, type Best } from "./lib/score";
@@ -13,7 +15,7 @@ import {
   type Lang,
   type Strings,
 } from "./lib/i18n";
-import type { IdentifyResult } from "./types";
+import type { IdentifyResult, RosterEntry } from "./types";
 
 type Mode = "scan" | "quiz";
 type Phase = "idle" | "analyzing" | "result" | "error";
@@ -56,6 +58,7 @@ export default function App() {
   // Catch history
   const [caught, setCaught] = useState<Set<string>>(() => loadCaught());
   const [showDex, setShowDex] = useState(false);
+  const [selected, setSelected] = useState<RosterEntry | null>(null);
 
   const revealArt = useMemo(
     () => (result ? artworkForName(result.pokemon) : null),
@@ -302,7 +305,14 @@ export default function App() {
             <span className="dex-count">
               {caught.size} / {ROSTER.length} {t.caughtLabel}
             </span>
-            <button className="dex-close" aria-label="Close" onClick={() => setShowDex(false)}>
+            <button
+              className="dex-close"
+              aria-label="Close"
+              onClick={() => {
+                setSelected(null);
+                setShowDex(false);
+              }}
+            >
               ✕
             </button>
           </div>
@@ -310,7 +320,12 @@ export default function App() {
             {ROSTER.map((e) => {
               const got = caught.has(e.name);
               return (
-                <div className={`dex-cell ${got ? "caught" : "unknown"}`} key={e.id}>
+                <button
+                  type="button"
+                  className={`dex-cell ${got ? "caught" : "unknown"}`}
+                  key={e.id}
+                  onClick={() => setSelected(e)}
+                >
                   <img
                     className="dex-art"
                     src={artworkUrl(e.id)}
@@ -320,7 +335,7 @@ export default function App() {
                   <span className="dex-label">
                     {got ? e.name : `#${String(e.id).padStart(3, "0")}`}
                   </span>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -329,8 +344,20 @@ export default function App() {
               {t.reset}
             </button>
           </div>
+
+          {selected && (
+            <DexDetail
+              entry={selected}
+              caught={caught.has(selected.name)}
+              lang={lang}
+              t={t}
+              onClose={() => setSelected(null)}
+            />
+          )}
         </div>
       )}
+
+      <UpdatePrompt t={t} />
     </div>
   );
 }

@@ -639,6 +639,19 @@ body {
   padding: 6px 2px;
   background: rgba(255, 255, 255, 0.12);
   border-radius: 10px;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 0.08s ease, background 0.12s ease;
+}
+
+.dex-cell:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dex-cell:active {
+  transform: scale(0.95);
 }
 
 .dex-art {
@@ -687,4 +700,225 @@ body {
 .dex-reset:active {
   transform: translateY(2px);
   box-shadow: 0 2px 0 #12161b;
+}
+
+/* --- Dex detail popup --- */
+
+.detail-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.detail-card {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  max-height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 22px 18px 20px;
+  border-radius: 18px;
+  background: linear-gradient(160deg, #fdfdfd, #eef1f4);
+  color: var(--ink);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
+}
+
+.detail-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.12);
+  color: var(--ink);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.detail-art {
+  width: 148px;
+  height: 148px;
+  object-fit: contain;
+}
+
+.detail-art.silhouette {
+  filter: brightness(0);
+  opacity: 0.4;
+}
+
+.detail-name {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.detail-no {
+  font-family: "Courier New", monospace;
+  font-weight: 700;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.detail-no.unknown {
+  font-size: 20px;
+}
+
+.detail-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.detail-heading {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.type-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.type-pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+}
+
+.origami-badge {
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(var(--red-light), var(--red));
+  text-transform: capitalize;
+}
+
+.fact-list {
+  margin: 0;
+  padding-left: 18px;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.detail-hint {
+  margin: 8px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--red-dark);
+  text-align: center;
+}
+
+.detail-diagram {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.diagram-link {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--red-dark);
+  text-decoration: none;
+}
+
+.diagram-link:hover {
+  text-decoration: underline;
+}
+
+.diagram-credit {
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.45);
+  font-style: italic;
+}
+
+/* --- Update (new version) toast --- */
+
+.update-toast {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--screen-dark);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  animation: toast-in 0.22s ease;
+}
+
+@keyframes toast-in {
+  from {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+}
+
+.update-msg {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.update-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.update-reload {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(var(--red-light), var(--red));
+  cursor: pointer;
+}
+
+.update-dismiss {
+  border: none;
+  border-radius: 999px;
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
 }

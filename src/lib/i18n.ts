@@ -17,8 +17,17 @@ export interface Strings {
   langLabel: string;
   dexTitle: string;
   caughtLabel: string;
+  dexOrigamiLabel: string; // badge label for the origami fold on uncaught entries
+  dexFoldHint: string; // "fold one to catch it" nudge on uncaught entries
+  dexTypes: string; // "Types" heading in the detail popup
+  dexFunFacts: string; // "Fun facts" heading in the detail popup
+  dexHowToFold: string; // heading above the origami diagram in the popup
+  dexViewDiagram: string; // link label when a model has an external diagram URL
+  dexDiagramBy: string; // attribution byline, followed by the author name
   reset: string;
   resetConfirm: string;
+  updateAvailable: string; // "new version" toast message
+  updateReload: string; // reload button on the update toast
   errors: {
     no_image: string;
     bad_image: string;
@@ -63,8 +72,17 @@ export const STRINGS: Record<Lang, Strings> = {
     langLabel: "Language",
     dexTitle: "Dex",
     caughtLabel: "CAUGHT",
+    dexOrigamiLabel: "Origami",
+    dexFoldHint: "Fold one to catch it!",
+    dexTypes: "Types",
+    dexFunFacts: "Fun facts",
+    dexHowToFold: "How to fold",
+    dexViewDiagram: "View diagram",
+    dexDiagramBy: "Diagram by",
     reset: "Reset Dex",
     resetConfirm: "Reset your caught Pokédex? This can't be undone.",
+    updateAvailable: "New version available",
+    updateReload: "Reload",
     errors: {
       no_image: "Point the lens at your origami first.",
       bad_image: "That image didn't come through. Try again.",
@@ -89,8 +107,17 @@ export const STRINGS: Record<Lang, Strings> = {
     langLabel: "Idioma",
     dexTitle: "Catálogo",
     caughtLabel: "CAPTURADOS",
+    dexOrigamiLabel: "Origami",
+    dexFoldHint: "Dobra um para o capturar!",
+    dexTypes: "Tipos",
+    dexFunFacts: "Curiosidades",
+    dexHowToFold: "Como dobrar",
+    dexViewDiagram: "Ver diagrama",
+    dexDiagramBy: "Diagrama de",
     reset: "Repor Dex",
     resetConfirm: "Repor a tua Pokédex capturada? Isto não pode ser anulado.",
+    updateAvailable: "Nova versão disponível",
+    updateReload: "Recarregar",
     errors: {
       no_image: "Aponta a lente ao teu origami primeiro.",
       bad_image: "Essa imagem não chegou bem. Tenta outra vez.",
@@ -115,8 +142,17 @@ export const STRINGS: Record<Lang, Strings> = {
     langLabel: "Idioma",
     dexTitle: "Catálogo",
     caughtLabel: "CAPTURADOS",
+    dexOrigamiLabel: "Origami",
+    dexFoldHint: "¡Dobla uno para capturarlo!",
+    dexTypes: "Tipos",
+    dexFunFacts: "Curiosidades",
+    dexHowToFold: "Cómo doblar",
+    dexViewDiagram: "Ver diagrama",
+    dexDiagramBy: "Diagrama de",
     reset: "Reiniciar Dex",
     resetConfirm: "¿Reiniciar tu Pokédex? No se puede deshacer.",
+    updateAvailable: "Nueva versión disponible",
+    updateReload: "Recargar",
     errors: {
       no_image: "Apunta la lente a tu origami primero.",
       bad_image: "Esa imagen no llegó bien. Inténtalo de nuevo.",
@@ -141,8 +177,17 @@ export const STRINGS: Record<Lang, Strings> = {
     langLabel: "Langue",
     dexTitle: "Catalogue",
     caughtLabel: "CAPTURÉS",
+    dexOrigamiLabel: "Origami",
+    dexFoldHint: "Plie-en un pour le capturer !",
+    dexTypes: "Types",
+    dexFunFacts: "Le saviez-vous ?",
+    dexHowToFold: "Comment plier",
+    dexViewDiagram: "Voir le diagramme",
+    dexDiagramBy: "Diagramme de",
     reset: "Réinitialiser",
     resetConfirm: "Réinitialiser ta Pokédex ? C'est irréversible.",
+    updateAvailable: "Nouvelle version disponible",
+    updateReload: "Recharger",
     errors: {
       no_image: "Vise d'abord ton origami avec l'objectif.",
       bad_image: "Cette image n'est pas passée. Réessaie.",
@@ -167,8 +212,17 @@ export const STRINGS: Record<Lang, Strings> = {
     langLabel: "Sprache",
     dexTitle: "Katalog",
     caughtLabel: "GEFANGEN",
+    dexOrigamiLabel: "Origami",
+    dexFoldHint: "Falte eins, um es zu fangen!",
+    dexTypes: "Typen",
+    dexFunFacts: "Wissenswertes",
+    dexHowToFold: "So faltest du es",
+    dexViewDiagram: "Diagramm ansehen",
+    dexDiagramBy: "Diagramm von",
     reset: "Zurücksetzen",
     resetConfirm: "Deinen Pokédex zurücksetzen? Das kann nicht rückgängig gemacht werden.",
+    updateAvailable: "Neue Version verfügbar",
+    updateReload: "Neu laden",
     errors: {
       no_image: "Richte die Linse zuerst auf dein Origami.",
       bad_image: "Das Bild kam nicht an. Versuch es nochmal.",
